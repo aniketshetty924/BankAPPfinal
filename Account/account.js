@@ -72,6 +72,7 @@ class Account {
       throw error;
     }
   }
+
   static depositUserAccount(bankID, accountID, amount) {
     try {
       let account = Account.getUserAccountByBankID(bankID, accountID);
@@ -175,11 +176,12 @@ class Account {
 
       let senderPassbook = senderAccount.getPassbook();
       let currentDate = new Date();
-      let entry = `Amount of ${amount} has been debited from accountID : ${senderAccountID} from bank ID ${bankID} and debited to receiver ${receiverAccountID} from bank ID ${bankID} at ${currentDate}`;
-      senderPassbook.addEntry(entry);
+      let senderEntry = `Amount of ${amount} has been debited from accountID : ${senderAccountID} from bank ID ${bankID} and debited to receiver ${receiverAccountID} from bank ID ${bankID} at ${currentDate} and the remaining balance is Rs ${senderAccount.accountBalance}`;
+      senderPassbook.addEntry(senderEntry);
 
       let receiverPassbook = receiverAccount.getPassbook();
-      receiverPassbook.addEntry(entry);
+      let receiverEntry = `Amount of ${amount} has been debited from accountID : ${senderAccountID} from bank ID ${bankID} and debited to receiver ${receiverAccountID} from bank ID ${bankID} at ${currentDate} and the remaining balance is Rs ${receiverAccount.accountBalance}`;
+      receiverPassbook.addEntry(receiverEntry);
     } catch (error) {
       throw error;
     }
@@ -223,16 +225,17 @@ class Account {
 
       let senderPassbook = senderAccount.getPassbook();
       let currentDate = new Date();
-      let entry = `Amount of ${amount} has been debited from accountID : ${senderAccountID} from bank ID ${senderBankID} and debited to receiver ${receiverAccountID} from bank ID ${receiverBankID} at ${currentDate}`;
-      senderPassbook.addEntry(entry);
+      let senderEntry = `Amount of ${amount} has been debited from accountID : ${senderAccountID} from bank ID ${senderBankID} and debited to receiver ${receiverAccountID} from bank ID ${receiverBankID} at ${currentDate} and the remaining balance in the account is Rs ${senderAccount.accountBalance}`;
+      senderPassbook.addEntry(senderEntry);
 
       let receiverPassbook = receiverAccount.getPassbook();
-      receiverPassbook.addEntry(entry);
+      let receiverEntry = `Amount of ${amount} has been debited from accountID : ${senderAccountID} from bank ID ${senderBankID} and debited to receiver ${receiverAccountID} from bank ID ${receiverBankID} at ${currentDate} and the remaining balance in the account is Rs ${receiverAccount.accountBalance}`;
+      receiverPassbook.addEntry(receiverEntry);
 
       //ledger work
 
       let receiverLedgerSymbol = receiverBank.bankSymbol;
-      let senderLedger = senderBank.ledger;
+      let senderLedger = senderBank.ledger.getLedger();
       let senderObjExists = senderLedger.find((item) =>
         item.hasOwnProperty(receiverLedgerSymbol)
       );
@@ -243,7 +246,7 @@ class Account {
       senderObjExists[receiverLedgerSymbol] -= amount;
 
       let senderLedgerSymbol = senderBank.bankSymbol;
-      let receiverLedger = receiverBank.ledger;
+      let receiverLedger = receiverBank.ledger.getLedger();
       let receiverObjExists = receiverLedger.find((item) =>
         item.hasOwnProperty(senderLedgerSymbol)
       );

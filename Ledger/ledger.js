@@ -1,12 +1,10 @@
 class Ledger {
-  constructor(bankLedgerID, bankLedger) {
-    this.bankLedgerID = bankLedgerID;
-    this.bankLedger = bankLedger;
+  constructor(ledger) {
+    this.ledger = ledger;
   }
-  static addLedger(bankLedgerID, bankLedger) {
+  static addLedger(ledger) {
     try {
-      let ledger = new Ledger(bankLedgerID, bankLedger);
-      return ledger;
+      return new Ledger(ledger);
     } catch (error) {
       throw error;
     }

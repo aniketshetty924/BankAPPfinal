@@ -22,6 +22,7 @@ class User {
     }
     return allAccounts;
   }
+
   static getAllUsers() {
     let allUsers = [];
     for (let user of User.allUsers) {
@@ -80,6 +81,15 @@ class User {
     }
   }
 
+  findBankByBankID(bankID) {
+    try {
+      if (!this.isAdmin) throw new Error("only admins can get bank...");
+      let bank = Bank.findBankByBankID(bankID);
+      return bank;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   createUserBankAccountByBankID(firstName, lastName, age, bankID) {
     try {
       if (!this.isAdmin)
@@ -246,10 +256,14 @@ class User {
     }
   }
   //deposit money by bank id and account id
-  static depositUserAccount(bankID, accountID, amount) {
+  depositUserAccount(bankID, accountID, amount) {
     try {
+      if (!this.isActive) throw new Error("User does not exists...");
+      if (this.isAdmin == true)
+        throw new Error("Only customers can deposit money...");
       if (typeof amount != "number") throw new Error("invalid amount...");
       if (amount <= 0) throw new Error("invalid amount!");
+
       Account.depositUserAccount(bankID, accountID, amount);
       console.log(`${amount} is deposited at account id : ${accountID}`);
     } catch (error) {
@@ -258,8 +272,12 @@ class User {
   }
 
   //withdraw amount by account id bank id
-  static withDrawUserAccount(bankID, accountID, amount) {
+  withDrawUserAccount(bankID, accountID, amount) {
     try {
+      if (!this.isActive) throw new Error("User does not exists...");
+      if (this.isAdmin == true)
+        throw new Error("Only customers can deposit money...");
+      if (typeof amount != "number") throw new Error("invalid amount!");
       if (amount <= 0) throw new Error("invalid amount...");
       let money = Account.withDrawUserAccount(bankID, accountID, amount);
       return money;
@@ -269,8 +287,11 @@ class User {
   }
 
   //balance in specific account by bankid and account id
-  static getBalanceUserAccount(bankID, accountID) {
+  getBalanceUserAccount(bankID, accountID) {
     try {
+      if (!this.isActive) throw new Error("User does not exists...");
+      if (this.isAdmin == true)
+        throw new Error("Only customers can deposit money...");
       let balance = Account.getBalanceUserAccount(bankID, accountID);
       return balance;
     } catch (error) {
@@ -279,9 +300,12 @@ class User {
   }
 
   //total balance in specific bank by bankID,userID
-  static totalBalanceUserAccounts(bankID, userID) {
+  totalBalanceUserAccounts(bankID) {
     try {
-      let user = User.getUserByUserID(userID);
+      if (!this.isActive) throw new Error("User does not exists...");
+      if (this.isAdmin == true)
+        throw new Error("Only customers can deposit money...");
+      let user = this;
       let allAccounts = user.getAccounts();
       let totalBalance = 0;
       for (let account of allAccounts) {
@@ -296,13 +320,16 @@ class User {
   }
 
   //transfer within same user account same bank
-  static transferWithinSameUserAccountsSameBankID(
+  transferWithinSameUserAccountsSameBankID(
     bankID,
     senderAccountID,
     receiverAccountID,
     amount
   ) {
     try {
+      if (!this.isActive) throw new Error("User does not exists...");
+      if (this.isAdmin == true)
+        throw new Error("Only customers can deposit money...");
       Account.transferWithinSameUserAccountsSameBankID(
         bankID,
         senderAccountID,
@@ -315,7 +342,7 @@ class User {
   }
 
   //transfer within same user account different bank id
-  static transferWithinSameUserAccountsDifferentBankID(
+  transferWithinSameUserAccountsDifferentBankID(
     senderBankID,
     receiverBankID,
     senderAccountID,
@@ -323,6 +350,9 @@ class User {
     amount
   ) {
     try {
+      if (!this.isActive) throw new Error("User does not exists...");
+      if (this.isAdmin == true)
+        throw new Error("Only customers can deposit money...");
       Account.transferWithinSameUserAccountsDifferentBankID(
         senderBankID,
         receiverBankID,
@@ -336,7 +366,7 @@ class User {
   }
 
   //transfer withing different users but same bankid
-  static transferWithinDifferentUsers(
+  transferWithinDifferentUsers(
     senderBankID,
     receiverBankID,
     senderAccountID,
@@ -344,7 +374,10 @@ class User {
     amount
   ) {
     try {
-      User.transferWithinSameUserAccountsDifferentBankID(
+      if (!this.isActive) throw new Error("User does not exists...");
+      if (this.isAdmin == true)
+        throw new Error("Only customers can deposit money...");
+      this.transferWithinSameUserAccountsDifferentBankID(
         senderBankID,
         receiverBankID,
         senderAccountID,

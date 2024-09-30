@@ -49,14 +49,14 @@ class Bank {
         throw new Error("Enter a valid bank name and bank symbol...");
       let bankLedgerID = Bank.bankID + 1;
       // let ledgerObj={bankSymbol:0}
-      // let ledger = Ledger.addLedger(bankLedgerID,[]);
+      let ledger = Ledger.addLedger([]);
       let tempBank = new Bank(
         ++Bank.bankID,
         bankName,
         bankSymbol,
         [],
         true,
-        []
+        ledger
       );
       let allBanks = Bank.getAllBanks();
       for (let bank of allBanks) {
@@ -64,7 +64,9 @@ class Bank {
         // console.log("eueeeiwoiou", ledgerSymbol);
         let ledgerSymbol = bank.bankSymbol;
         let ledgerObj = { [ledgerSymbol]: 0 };
-        tempBank.ledger.push(ledgerObj);
+
+        tempBank.ledger.getLedger().push(ledgerObj);
+        // tempBank.ledger.push(ledgerObj);
       }
       Bank.allBanks.push(tempBank);
       let ledgerSymbol = bankSymbol;
@@ -72,7 +74,7 @@ class Bank {
         if (bank.bankSymbol != tempBank.bankSymbol) {
           let ledgerObj = { [ledgerSymbol]: 0 };
           // console.log("hello", ledgerSymbol);
-          bank.ledger.push(ledgerObj);
+          bank.ledger.getLedger().push(ledgerObj);
         }
       }
 
