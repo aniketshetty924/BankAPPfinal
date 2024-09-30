@@ -224,7 +224,15 @@ class User {
       console.log(error);
     }
   }
-
+  //update bank via admin
+  updateBankByBankID(bankID, parameter, value) {
+    try {
+      if (!this.isAdmin) throw new Error("only admins can update bank...");
+      Bank.updateBankByBankID(bankID);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   //delete bank via admin
   deleteBank(bankID) {
     try {

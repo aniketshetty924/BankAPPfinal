@@ -60,16 +60,19 @@ class Bank {
       );
       let allBanks = Bank.getAllBanks();
       for (let bank of allBanks) {
-        let ledgerSymbol = Symbol(bank.bankSymbol);
+        // let ledgerSymbol = Symbol(bank.bankSymbol);
         // console.log("eueeeiwoiou", ledgerSymbol);
-        tempBank.ledger.push({ [ledgerSymbol]: 0 });
+        let ledgerSymbol = bank.bankSymbol;
+        let ledgerObj = { [ledgerSymbol]: 0 };
+        tempBank.ledger.push(ledgerObj);
       }
       Bank.allBanks.push(tempBank);
-      let ledgerSymbol = Symbol(bankSymbol);
+      let ledgerSymbol = bankSymbol;
       for (let bank of Bank.allBanks) {
         if (bank.bankSymbol != tempBank.bankSymbol) {
+          let ledgerObj = { [ledgerSymbol]: 0 };
           // console.log("hello", ledgerSymbol);
-          bank.ledger.push({ [ledgerSymbol]: 0 });
+          bank.ledger.push(ledgerObj);
         }
       }
 
@@ -96,7 +99,39 @@ class Bank {
       throw error;
     }
   }
+  static updateBankByBankID(bankID, parameter, value) {
+    try {
+      if (typeof parameter != "string") throw new Error("invalid parameter");
+      let bank = Bank.findBankByBankID(bankID);
+      switch (parameter) {
+        case "bankName":
+          bank.updateBankName(value);
+          break;
 
+        case "bankSymbol":
+          bank.updateBankSymbol(value);
+          break;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  updateBankName(bankName) {
+    try {
+      if (typeof bankName != "string") throw new Error("invalid bank name...");
+      this.bankName = bankName;
+    } catch (error) {
+      throw error;
+    }
+  }
+  updateBankSymbol(bankSymbol) {
+    try {
+      if (typeof bankSymbol != "string") throw new Error("invalid bank symbol");
+      this.bankSymbol = bankSymbol;
+    } catch (error) {
+      throw error;
+    }
+  }
   static deleteBank(bankID) {
     try {
       let currentBank = Bank.findBankByBankID(bankID);

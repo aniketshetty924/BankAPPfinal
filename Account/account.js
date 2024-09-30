@@ -231,10 +231,23 @@ class Account {
 
       //ledger work
 
-      // let senderBankSymbol = senderBank.bankSymbol;
-      // let ledger = senderBank.getLedger();
-      // console.log("hello", senderBankSymbol);
-      // console.log("dfdfd", ledger[senderBankSymbol]);
+      let receiverLedgerSymbol = receiverBank.bankSymbol;
+      let senderLedger = senderBank.ledger;
+      let senderObjExists = senderLedger.find((item) =>
+        item.hasOwnProperty(receiverLedgerSymbol)
+      );
+      // console.log(ledger);
+      // console.log("exists", objExists);
+      // console.log("hello", ledgerSymbol);
+      // console.log("dfdfd", objExists[ledgerSymbol]);
+      senderObjExists[receiverLedgerSymbol] -= amount;
+
+      let senderLedgerSymbol = senderBank.bankSymbol;
+      let receiverLedger = receiverBank.ledger;
+      let receiverObjExists = receiverLedger.find((item) =>
+        item.hasOwnProperty(senderLedgerSymbol)
+      );
+      receiverObjExists[senderLedgerSymbol] += amount;
     } catch (error) {
       throw error;
     }

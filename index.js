@@ -39,7 +39,8 @@ console.log(sbi1);
 console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 User.transferWithinSameUserAccountsDifferentBankID(1, 2, 2, 1, 230);
 console.log(sbi1);
-
+console.log("sbi : ", Bank.findBankByBankID(1).ledger);
+console.log("pnb : ", Bank.findBankByBankID(2).ledger);
 console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 User.transferWithinDifferentUsers(1, 2, 2, 2, 1000);
 //senderbankID,receiverBankID,sID,rID,amount
@@ -55,6 +56,11 @@ console.log("----------------------------------------");
 admin1.createBank("Axis Bank", "axis");
 console.log("ledger");
 
-console.log(Bank.findBankByBankID(1).ledger);
-console.log(Bank.findBankByBankID(2).ledger);
-console.log(Bank.findBankByBankID(3).ledger);
+console.log("sbi : ", Bank.findBankByBankID(1).ledger);
+console.log("pnb : ", Bank.findBankByBankID(2).ledger);
+console.log("axis : ", Bank.findBankByBankID(3).ledger);
+
+console.log("^^^^^^^^^^^^^^^^^^^^^^");
+User.transferWithinDifferentUsers(2, 1, 2, 2, 500);
+console.log("sbi : ", Bank.findBankByBankID(1).ledger);
+console.log("pnb : ", Bank.findBankByBankID(2).ledger);
