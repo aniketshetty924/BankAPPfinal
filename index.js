@@ -56,11 +56,11 @@ console.log("----------------------------------------");
 admin1.createBank("Axis Bank", "axis");
 console.log("ledger");
 
-console.log("sbi : ", admin1.findBankByBankID(1).ledger);
-console.log("pnb : ", admin1.findBankByBankID(2).ledger);
-console.log("axis : ", admin1.findBankByBankID(3).ledger);
+console.log("sbi : ", admin1.findBankByBankID(1).ledger.getLedger());
+console.log("pnb : ", admin1.findBankByBankID(2).ledger.getLedger());
+console.log("axis : ", admin1.findBankByBankID(3).ledger.getLedger());
 
 console.log("^^^^^^^^^^^^^^^^^^^^^^");
 sbi2.transferWithinDifferentUsers(2, 1, 2, 2, 500);
-console.log("sbi : ", admin1.findBankByBankID(1).ledger);
-console.log("pnb : ", admin1.findBankByBankID(2).ledger);
+console.log("sbi : ", admin1.findBankByBankID(1).ledger.getLedger());
+console.log("pnb : ", admin1.findBankByBankID(2).ledger.getLedger());
