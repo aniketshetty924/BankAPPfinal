@@ -169,7 +169,13 @@ class Account {
         );
 
       senderAccount.debitAmount(amount);
-      receiverAccount.creditAmount(amount);
+      try {
+        receiverAccount.creditAmount(amount);
+      } catch (error) {
+        senderAccount.accountBalance += amount;
+        console.log("Transaction failed...");
+        throw error;
+      }
       console.log(
         `Amount of ${amount} has been transferred from account id : ${senderAccountID} to account id : ${receiverAccountID} with bank id : ${bankID}`
       );
@@ -218,7 +224,14 @@ class Account {
         );
 
       senderAccount.debitAmount(amount);
-      receiverAccount.creditAmount(amount);
+      try {
+        receiverAccount.creditAmount(amount);
+      } catch (error) {
+        senderAccount.accountBalance += amount;
+        console.log("Transaction failed...");
+        throw error;
+      }
+
       console.log(
         `Amount of ${amount} has been transferred from Bank id ${senderBankID} with account id : ${senderAccountID} to bank id ${receiverBankID} with account id : ${receiverAccountID}`
       );
