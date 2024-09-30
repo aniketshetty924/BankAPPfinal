@@ -159,6 +159,16 @@ class Bank {
       throw error;
     }
   }
+
+  //getLedger via admin
+  static getBankLedger(bankID) {
+    try {
+      let bank = Bank.findBankByBankID(bankID);
+      return bank.ledger.getLedger();
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = Bank;

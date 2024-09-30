@@ -397,6 +397,16 @@ class User {
       console.log(error);
     }
   }
+
+  getBankLedger(bankID) {
+    try {
+      if (!this.isAdmin)
+        throw new Error("only admins can access bank ledger..");
+      return Bank.getBankLedger(bankID);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 module.exports = User;
